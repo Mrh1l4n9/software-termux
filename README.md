@@ -1,117 +1,68 @@
-dorkbot
-=======
+# sqlmap
 
-Scan Google search results for vulnerabilities.
+[![Build Status](https://api.travis-ci.org/sqlmapproject/sqlmap.svg?branch=master)](https://api.travis-ci.org/sqlmapproject/sqlmap) [![Python 2.6|2.7](https://img.shields.io/badge/python-2.6|2.7-yellow.svg)](https://www.python.org/) [![License](https://img.shields.io/badge/license-GPLv2-red.svg)](https://raw.githubusercontent.com/sqlmapproject/sqlmap/master/LICENSE) [![Twitter](https://img.shields.io/badge/twitter-@sqlmap-blue.svg)](https://twitter.com/sqlmap)
 
-dorkbot is a modular command-line tool for performing vulnerability scans against a set of webpages returned by Google search queries in a given Google Custom Search Engine. It is broken up into two sets of modules:
+sqlmap is an open source penetration testing tool that automates the process of detecting and exploiting SQL injection flaws and taking over of database servers. It comes with a powerful detection engine, many niche features for the ultimate penetration tester and a broad range of switches lasting from database fingerprinting, over data fetching from the database, to accessing the underlying file system and executing commands on the operating system via out-of-band connections.
 
-* *Indexers* - modules that issue a search query and return the results as targets
-* *Scanners* - modules that perform a vulnerability scan against each target
+**The sqlmap project is sponsored by [Netsparker Web Application Security Scanner](https://www.netsparker.com/?utm_source=github.com&utm_medium=referral&utm_content=sqlmap+repo&utm_campaign=generic+advert).**
 
-Targets are stored in a local database file upon being indexed. Once scanned, any vulnerabilities found by the chosen scanner are written to a standard JSON report file. Indexing and scanning processes can be run separately or combined in a single command.
+Screenshots
+----
+
+![Screenshot](https://raw.github.com/wiki/sqlmapproject/sqlmap/images/sqlmap_screenshot.png)
+
+You can visit the [collection of screenshots](https://github.com/sqlmapproject/sqlmap/wiki/Screenshots) demonstrating some of features on the wiki.
+
+Installation
+----
+
+You can download the latest tarball by clicking [here](https://github.com/sqlmapproject/sqlmap/tarball/master) or latest zipball by clicking  [here](https://github.com/sqlmapproject/sqlmap/zipball/master).
+
+Preferably, you can download sqlmap by cloning the [Git](https://github.com/sqlmapproject/sqlmap) repository:
+
+    git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git sqlmap-dev
+
+sqlmap works out of the box with [Python](http://www.python.org/download/) version **2.6.x** and **2.7.x** on any platform.
 
 Usage
-=====
-<pre>
-usage: dorkbot.py [-h] [-c CONFIG] [-b BLACKLIST] [-d DATABASE] [-i INDEXER]
-                  [-l] [-o INDEXER_OPTIONS] [-p SCANNER_OPTIONS] [-s SCANNER]
-                  [-v VULNDIR]
+----
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -c CONFIG, --config CONFIG
-                        Configuration file
-  -b BLACKLIST, --blacklist BLACKLIST
-                        File containing (regex) patterns to blacklist from
-                        scans
-  -d DATABASE, --database DATABASE
-                        SQLite3 database file
-  -i INDEXER, --indexer INDEXER
-                        Indexer module to use
-  -l, --list            List targets in database
-  -o INDEXER_OPTIONS, --indexer-options INDEXER_OPTIONS
-                        Indexer-specific options (opt1=val1,opt2=val2,..)
-  -p SCANNER_OPTIONS, --scanner-options SCANNER_OPTIONS
-                        Scanner-specific options (opt1=val1,opt2=val2,..)
-  -s SCANNER, --scanner SCANNER
-                        Scanner module to use
-  -v VULNDIR, --vulndir VULNDIR
-                        Directory to store vulnerability output reports
-</pre>
+To get a list of basic options and switches use:
 
-Platform
-========
-Python 2.7.x / 3.x (Linux / Mac OS / Windows)
-(requires [python-dateutil](https://pypi.python.org/pypi/python-dateutil))
+    python sqlmap.py -h
 
-Tools
-=====
-* [PhantomJS](http://phantomjs.org/)
-* [Arachni](http://www.arachni-scanner.com/)
-* [Wapiti](http://wapiti.sourceforge.net/)
+To get a list of all options and switches use:
 
-As needed, dorkbot will search for tools in the following order:
-* Directory specified via relevant module option
-* Located in dorkbot's *tools* directory, with the subdirectory named after the tool
-* Available in the user's PATH (e.g. installed system-wide)
+    python sqlmap.py -hh
 
-Quickstart
-==========
-Create a Google [Custom Search Engine](https://www.google.com/cse/) and note the search engine ID, e.g. 012345678901234567891:abc12defg3h.
-Download either Arachni or Wapiti, unpack it into the tools directory, and rename the subdirectory to *arachni* or *wapiti* as appropriate.
-<pre>$ sudo apt install python-dateutil phantomjs</pre>
-<pre>$ ./dorkbot.py -i google -o engine=012345678901234567891:abc12defg3h,query="filetype:php inurl:id"</pre>
-<pre>$ ./dorkbot.py -s arachni</pre> OR <pre>$ ./dorkbot.py -s wapiti</pre>
+You can find a sample run [here](https://asciinema.org/a/46601).
+To get an overview of sqlmap capabilities, list of supported features and description of all options and switches, along with examples, you are advised to consult the [user's manual](https://github.com/sqlmapproject/sqlmap/wiki/Usage).
 
-Indexer Modules
-===============
-### google ###
-Search for targets in a Google Custom Search Engine (CSE) via custom search element.
+Links
+----
 
-Requirements: [PhantomJS](http://phantomjs.org/)
+* Homepage: http://sqlmap.org
+* Download: [.tar.gz](https://github.com/sqlmapproject/sqlmap/tarball/master) or [.zip](https://github.com/sqlmapproject/sqlmap/zipball/master)
+* Commits RSS feed: https://github.com/sqlmapproject/sqlmap/commits/master.atom
+* Issue tracker: https://github.com/sqlmapproject/sqlmap/issues
+* User's manual: https://github.com/sqlmapproject/sqlmap/wiki
+* Frequently Asked Questions (FAQ): https://github.com/sqlmapproject/sqlmap/wiki/FAQ
+* Twitter: [@sqlmap](https://twitter.com/sqlmap)
+* Demos: [http://www.youtube.com/user/inquisb/videos](http://www.youtube.com/user/inquisb/videos)
+* Screenshots: https://github.com/sqlmapproject/sqlmap/wiki/Screenshots
 
-Options:
-* **engine** - CSE id
-* **query** - search query
-* phantomjs_dir - phantomjs base directory containing bin/phantomjs (default: tools/phantomjs/)
-* domain - limit searches to specified domain
+Translations
+----
 
-### google_api ###
-Search for targets in a Google Custom Search Engine (CSE) via JSON API.
-
-Requirements: none
-
-Options:
-* **key** - API key
-* **engine** - CSE id
-* **query** - search query
-* domain - limit searches to specified domain
-
-### stdin ###
-Read targets from standard input, one per line.
-
-Requirements: none
-
-Options: none
-
-Scanner Modules
-===============
-### arachni ###
-Scan targets with Arachni command-line scanner.
-
-Requirements: [Arachni](http://www.arachni-scanner.com/)
-
-Options:
-* arachni_dir - arachni base directory containing bin/arachni and bin/arachni_reporter (default: tools/arachni/)
-* report_dir - directory to save arachni scan binary and JSON scan report output (default: reports/)
-* checks - space-delimited list of vulnerability checks to perform (default: "active/\* -csrf -unvalidated_redirect -source_code_disclosure -response_splitting -no_sql_injection_differential")
-
-### wapiti ###
-Scan targets with Wapiti command-line scanner.
-
-Requirements: [Wapiti](http://wapiti.sourceforge.net/)
-
-Options:
-* wapiti_dir - wapiti base directory containing bin/wapiti (default: tools/wapiti/)
-* report_dir - directory to save wapiti JSON scan report (default: reports/)
-
+* [Bulgarian](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-bg-BG.md)
+* [Chinese](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-zh-CN.md)
+* [Croatian](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-hr-HR.md)
+* [French](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-fr-FR.md)
+* [Greek](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-gr-GR.md)
+* [Indonesian](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-id-ID.md)
+* [Italian](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-it-IT.md)
+* [Japanese](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-ja-JP.md)
+* [Polish](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-pl-PL.md)
+* [Portuguese](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-pt-BR.md)
+* [Spanish](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-es-MX.md)
+* [Turkish](https://github.com/sqlmapproject/sqlmap/blob/master/doc/translations/README-tr-TR.md)
