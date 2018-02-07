@@ -1,2 +1,2 @@
 # software-termux
-apa ya
+Macam macam tools termux
